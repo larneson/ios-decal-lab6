@@ -15,22 +15,124 @@ class LoginViewController: UIViewController {
         static let backgroundColor: UIColor = UIColor(hue: 0.5389, saturation: 1, brightness: 0.92, alpha: 1.0)
         static let invalidEmailTitle = "Invalid username or password"
         static let invalidEmailMessage = "Please try again"
+        
+        static let buttonHeight: CGFloat = 40
+        static let margin: CGFloat = 10
     }
 
     // TODO: instantiate the views needed for your project
+    var loginViewControllerLabel = UILabel()
+    var whiteView = UIView()
+    var emailField = UITextField()
+    var passwordField = UITextField()
+    var loginButton = UIButton()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Constants.backgroundColor
         
+        
         // TODO: Add your views either as subviews of `view` or subviews of each other using `addSubview`
         
+        view.addSubview(loginViewControllerLabel)
+        view.addSubview(whiteView)
+        
+        whiteView.addSubview(emailField)
+        whiteView.addSubview(passwordField)
+        whiteView.addSubview(loginButton)
+        
+        
         // TODO: layout your views using frames or AutoLayout
+        
+        whiteView.backgroundColor = UIColor.white
+        
+        whiteView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let myConstraints = [
+            whiteView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            whiteView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            whiteView.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+                                         constant: Constants.margin),
+            whiteView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+                                          constant: -Constants.margin),
+            whiteView.heightAnchor.constraint(equalToConstant: Constants.buttonHeight*3 + Constants.margin*4)
+        ]
+        NSLayoutConstraint.activate(myConstraints)
+        
+        loginViewControllerLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        let labelConstraints = [
+            loginViewControllerLabel.centerXAnchor.constraint(equalTo: whiteView.centerXAnchor),
+            loginViewControllerLabel.bottomAnchor.constraint(equalTo: whiteView.topAnchor, constant: -8),
+            loginViewControllerLabel.leadingAnchor.constraint(equalTo: whiteView.leadingAnchor),
+            loginViewControllerLabel.trailingAnchor.constraint(equalTo: whiteView.trailingAnchor)
+        ]
+        NSLayoutConstraint.activate(labelConstraints)
+        loginViewControllerLabel.text = "Login View Controller"
+        loginViewControllerLabel.textColor = UIColor.white
+        loginViewControllerLabel.textAlignment = .center
+        
+        emailField.translatesAutoresizingMaskIntoConstraints = false
+        
+        let emailConstraints = [
+            emailField.centerXAnchor.constraint(equalTo: whiteView.centerXAnchor),
+            emailField.topAnchor.constraint(equalTo: whiteView.topAnchor, constant: Constants.margin),
+            emailField.leadingAnchor.constraint(equalTo: whiteView.leadingAnchor,
+                                               constant: Constants.margin),
+            emailField.trailingAnchor.constraint(equalTo: whiteView.trailingAnchor,
+                                                constant: -Constants.margin),
+            emailField.heightAnchor.constraint(equalToConstant: Constants.buttonHeight)
+
+        ]
+        NSLayoutConstraint.activate(emailConstraints)
+        
+        emailField.placeholder = "berkeley.edu email"
+        
+        passwordField.translatesAutoresizingMaskIntoConstraints = false
+        
+        let passwordConstraints = [
+            passwordField.centerXAnchor.constraint(equalTo: whiteView.centerXAnchor),
+            passwordField.topAnchor.constraint(equalTo: emailField.bottomAnchor, constant: Constants.margin),
+            passwordField.leadingAnchor.constraint(equalTo: whiteView.leadingAnchor,
+                                                constant: Constants.margin),
+            passwordField.trailingAnchor.constraint(equalTo: whiteView.trailingAnchor,
+                                                 constant: -Constants.margin),
+            passwordField.heightAnchor.constraint(equalToConstant: Constants.buttonHeight)
+            
+        ]
+
+        NSLayoutConstraint.activate(passwordConstraints)
+        passwordField.placeholder = "password"
+        
+        loginButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        let loginButtonConstraints = [
+            loginButton.centerXAnchor.constraint(equalTo: whiteView.centerXAnchor),
+            loginButton.topAnchor.constraint(equalTo: passwordField.bottomAnchor, constant: Constants.margin),
+            loginButton.leadingAnchor.constraint(equalTo: whiteView.leadingAnchor,
+                                                   constant: Constants.margin),
+            loginButton.trailingAnchor.constraint(equalTo: whiteView.trailingAnchor,
+                                                    constant: -Constants.margin),
+            loginButton.heightAnchor.constraint(equalToConstant: Constants.buttonHeight)
+            
+        ]
+        
+        NSLayoutConstraint.activate(loginButtonConstraints)
+        loginButton.backgroundColor = Constants.backgroundColor
+        loginButton.setTitle("Submit", for: .normal)
+        loginButton.setTitleColor(UIColor.white, for: .normal)
+        loginButton.titleLabel?.textAlignment = .center
+        loginButton.addTarget(self, action: #selector(loginButtonClicked), for: .touchDown)
     }
     
     // TODO: create an IBAction for your login button
     
-    
+    @IBAction func loginButtonClicked(sender: UIButton) {
+        let email = emailField.text
+        let password = passwordField.text
+        authenticateUser(username: email, password: password)
+    }
     
     
     
